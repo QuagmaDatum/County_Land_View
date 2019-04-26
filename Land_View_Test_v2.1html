@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Land_View_Test_v2</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="resources/leaflet.ajax.min.js"></script>
+        <script src="resources/turf.min.js"></script>
+        
+        <style>
+            #header {
+                height: 75px;
+                background-color: darkgoldenrod;
+            }
+            #mapdiv {
+                height: 650px;
+                background-color:salmon;
+            }
+            #side_panel {
+                height: 650px;
+                background-color:beige;
+            }
+            #footer {
+                height: 75px;
+                background-color: darkgrey;
+            }
+            .attraction {
+                margin-bottom: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--
+           CSS exe: class = "some line of code"
+           HTML exe: <button id="zoomToZocalo"(Insert CSS)>Zocalo</button>
+           Mixture of Both exe: <button id="zoomToZocalo" class="form-control btn-primary">Zocalo</button>
+         -->
+        <div id="header" class="col-md-12">
+            <h1 class="text-center">County Land View</h1>
+        </div>
+        
+        <div id="side_panel" class="col-md-3">
+            <h1 class="text-center">Land and Farms</h1>
+            <button id="zoomTotest" class="form-control btn-primary">Land Name</button>
+        </div>
+        
+        <div id="mapdiv" class="col-md-9"></div>
+        
+        <div id="footer" class="col-md-12">
+            <h4 id="map_coords" class="text-center">Latitude: 19.4 Longitude: -99.1 Zoom Level: 11</h4>
+            <h4 class="text-center">&copy;2019 <a href="http://millermountain.com">County Land View LLC</a>
+            </h4>
+         </div>
+         
+         <!--
+          JavaScript can be use to handle DOM Events: exe $("#zoomToZocalo).click(function()
+         -->
+         
+         <script>
+            var lyrfarmland;
+             
+             
+            var mymap = L.map('mapdiv').setView([41.6,-73.6],10);
+             
+            var backgroundLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+            mymap.addLayer(backgroundLayer);
+             
+            /* 
+            Add an event handler to the click even of the button using [JavaScript and J-Query] 
+            */  
+            $("#zoomTotest").click(function(){
+                mymap.setView([41.92174, -73.56649], 16);
+            });
+
+
+             mymap.on('mousemove',function (e){
+                var str = "Latitude: "+e.latlng.lat.toFixed(5) +"   Longitude: "+e.latlng.lng.toFixed(5)+ "Zoom Level: "+mymap.getZoom();
+                $("#map_coords").html(str);
+             });
+             
+
+             
+            lyrfarmland = L.geoJSON.ajax('data/test.geojson', {style:{color:'fuchsia'}}).addTo(mymap);
+
+
+             
+             
+        </script>
+         
+         
+         
+    </body>
+</html>
